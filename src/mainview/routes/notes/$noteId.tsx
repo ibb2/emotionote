@@ -3,6 +3,7 @@ import { BlockNoteView } from "@blocknote/shadcn";
 import { createFileRoute } from "@tanstack/react-router";
 import "@blocknote/shadcn/style.css";
 import { useTheme } from "@/components/theme-provider";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/notes/$noteId")({
   component: RouteComponent,
@@ -33,7 +34,7 @@ function RouteComponent() {
   return (
     <div>
       <div>Hello `/notes/${noteId}`!</div>
-
+      <Button>Save</Button>
       <BlockNoteView
         editor={editor}
         theme={resolvedTheme}
