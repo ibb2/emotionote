@@ -8,7 +8,7 @@ type NoteId = typeof NoteId.Type;
 // Schema defines database structure with runtime validation.
 // Column types validate data on insert/update/upsert.
 const Schema = {
-  note: {
+  _note: {
     id: NoteId,
     title: Evolu.NonEmptyString100,
     blocks: Evolu.Json,

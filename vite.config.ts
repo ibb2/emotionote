@@ -17,6 +17,10 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    dedupe: ["react", "react-dom"],
+  },
+  optimizeDeps: {
+    exclude: ["@base-ui/react", "@evolu/react", "@evolu/react-web"],
   },
   root: "src/mainview",
   build: {

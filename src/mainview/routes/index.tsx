@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -8,6 +9,7 @@ function Index() {
   return (
     <div>
       <p>Homepage</p>
+      <Button>New note</Button>
     </div>
   );
 }

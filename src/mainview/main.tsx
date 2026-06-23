@@ -9,7 +9,7 @@ import { evoluReactWebDeps } from "@evolu/react-web";
 import { createEvolu, SimpleName } from "@evolu/common";
 
 import { Schema } from "@/mainview/db/schema";
-import { EvoluProvider } from "@evolu/react";
+import { EvoluContext } from "@evolu/react";
 
 const router = createRouter({ routeTree });
 
@@ -20,16 +20,16 @@ declare module "@tanstack/react-router" {
 }
 
 const evolu = createEvolu(evoluReactWebDeps)(Schema, {
-  name: SimpleName.orThrow("your-app-name"),
-  transports: [{ type: "WebSocket", url: "wss://your-sync-url" }], // optional, defaults to free.evoluhq.com
+  name: SimpleName.orThrow("emotionote"),
+  // transports: [{ type: "WebSocket", url: "wss://your-sync-url" }], // optional, defaults to free.evoluhq.com
 });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <EvoluProvider value={evolu}>
+    <EvoluContext.Provider value={evolu}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <RouterProvider router={router} />
       </ThemeProvider>
-    </EvoluProvider>
+    </EvoluContext.Provider>
   </StrictMode>,
 );
