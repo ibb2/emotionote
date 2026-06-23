@@ -24,6 +24,7 @@
 		"clsx": "^2.1.1",
 		"electrobun": "1.18.1",
 		"lucide-react": "^1.21.0",
+		"nanoid": "^5.1.15",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"shadcn": "^4.11.0",
