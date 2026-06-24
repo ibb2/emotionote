@@ -5,15 +5,23 @@ import "@blocknote/shadcn/style.css";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { useEvolu, useQuery } from "@evolu/react";
-import { NoteId } from "@/mainview/db/schema";
+import { NoteId } from "@/db/schema";
 import { useEffect, useMemo, useRef } from "react";
 import { PartialBlock } from "@blocknote/core";
 import { Row } from "@evolu/common";
 import { createQuery } from "@evolu/common/local-first";
+import { Electroview } from "electrobun/view";
+import { type MyWebviewRPCType } from "@/shared/types";
 
 export const Route = createFileRoute("/notes/$noteId")({
   component: RouteComponent,
 });
+
+const rpc = Electroview.defineRPC<MyWebviewRPCType>({
+  handlers: {},
+});
+
+const electroview = new Electroview({ rpc });
 
 type NoteRow = Row & {
   readonly id: string;
@@ -81,6 +89,15 @@ function RouteComponent() {
     <div>
       <div>{note ? note.title : `Note ${noteId} not found`}</div>
       <Button onClick={save}>Save</Button>
+      <Button
+        onClick={() => {
+          electroview.rpc?.send.logInBackend({
+            message: `Log from note ${noteId}`,
+          });
+        }}
+      >
+        Log in Backend
+      </Button>
       <BlockNoteView
         editor={editor}
         theme={resolvedTheme}

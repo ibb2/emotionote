@@ -8,7 +8,7 @@ import { routeTree } from "./routeTree.gen";
 import { evoluReactWebDeps } from "@evolu/react-web";
 import { createEvolu, SimpleName } from "@evolu/common";
 
-import { Schema } from "@/mainview/db/schema";
+import { Schema } from "@/db/schema";
 import { EvoluContext } from "@evolu/react";
 
 const router = createRouter({ routeTree });
