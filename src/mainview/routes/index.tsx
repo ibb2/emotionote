@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { createQuery, type Row } from "@evolu/common/local-first";
 import { useEvolu, useQuery } from "@evolu/react";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { nanoid } from "nanoid";
 
 type NoteListRow = Row & {
   readonly id: string;
@@ -22,15 +23,32 @@ function Index() {
 
   const notes = useQuery(allNotes);
   const createNote = () => {
+    const id = nanoid();
+
     const result = insert("_note", {
-      title: "Untitled note",
-      blocks: JSON.stringify([{ type: "paragraph", content: "" }]),
+      title: id + " note",
+      blocks: JSON.stringify([
+        { type: "heading", content: id },
+        {
+          type: "paragraph",
+          content: "Welcome to this demo!",
+        },
+        {
+          type: "paragraph",
+          content: "Open up a menu or toolbar to see more of the red theme",
+        },
+        {
+          type: "paragraph",
+          content:
+            "Toggle light/dark mode in the page footer and see the theme change too",
+        },
+      ]),
     });
 
     if (result.ok) {
       void router.navigate({
         to: "/notes/$noteId",
-        params: { noteId: result.value.id },
+        params: { noteId: id },
       });
     }
   };
