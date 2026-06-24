@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button";
 import {
   Outlet,
   createRootRoute,
-  useNavigate,
   useRouter,
 } from "@tanstack/react-router";
+import { Suspense } from "react";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -12,7 +12,6 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const router = useRouter();
-  const navigate = useNavigate();
 
   return (
     <div>
@@ -26,7 +25,9 @@ function RootComponent() {
         </Button>
         <Button onClick={() => router.history.forward()}>Forwards</Button>
       </header>
-      <Outlet />
+      <Suspense fallback={null}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }

@@ -15,4 +15,4 @@ const Schema = {
   },
 };
 
-export { Schema };
+export { NoteId, Schema };
