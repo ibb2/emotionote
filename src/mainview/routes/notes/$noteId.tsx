@@ -10,18 +10,11 @@ import { useEffect, useMemo, useRef } from "react";
 import { PartialBlock } from "@blocknote/core";
 import { Row } from "@evolu/common";
 import { createQuery } from "@evolu/common/local-first";
-import { Electroview } from "electrobun/view";
-import { type MyWebviewRPCType } from "@/shared/types";
+import { electroview } from "@/mainview/rpc";
 
 export const Route = createFileRoute("/notes/$noteId")({
   component: RouteComponent,
 });
-
-const rpc = Electroview.defineRPC<MyWebviewRPCType>({
-  handlers: {},
-});
-
-const electroview = new Electroview({ rpc });
 
 type NoteRow = Row & {
   readonly id: string;
