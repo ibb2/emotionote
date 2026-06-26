@@ -11,6 +11,7 @@ import { PartialBlock } from "@blocknote/core";
 import { Row } from "@evolu/common";
 import { createQuery } from "@evolu/common/local-first";
 import { electroview } from "@/mainview/rpc";
+import { useTextSentimentAnalysis } from "@/mainview/hooks/useTextSentimentAnalysis";
 
 export const Route = createFileRoute("/notes/$noteId")({
   component: RouteComponent,
@@ -33,6 +34,25 @@ const parseBlocks = (blocks: string): PartialBlock[] => {
   }
 };
 
+const getInlineText = (content: unknown): string[] => {
+  if (typeof content === "string") return [content];
+  if (Array.isArray(content)) return content.flatMap(getInlineText);
+  if (!content || typeof content !== "object") return [];
+
+  const maybeText = (content as { text?: unknown }).text;
+  return typeof maybeText === "string" ? [maybeText] : [];
+};
+
+const getDocumentText = (
+  blocks: readonly {
+    content?: unknown;
+  }[],
+): string =>
+  blocks
+    .flatMap((block) => getInlineText(block.content))
+    .join(" ")
+    .trim();
+
 function RouteComponent() {
   const { noteId } = Route.useParams();
   const { resolvedTheme } = useTheme();
@@ -42,6 +62,12 @@ function RouteComponent() {
   const editor = useCreateBlockNote({
     initialContent: emptyDocument,
   });
+  const {
+    analyzeText,
+    error: sentimentError,
+    isLoading: isAnalyzingSentiment,
+    sentiment,
+  } = useTextSentimentAnalysis();
 
   const noteQuery = useMemo(
     () =>
@@ -91,6 +117,18 @@ function RouteComponent() {
       >
         Log in Backend
       </Button>
+      <Button
+        disabled={isAnalyzingSentiment}
+        onClick={() => void analyzeText(getDocumentText(editor.document))}
+      >
+        {isAnalyzingSentiment ? "Analyzing..." : "Analyze Emotion"}
+      </Button>
+      <div>
+        {sentiment
+          ? `Emotion: ${sentiment.label} (${Math.round(sentiment.score * 100)}%)`
+          : "Emotion: Not analyzed"}
+      </div>
+      {sentimentError ? <div>{sentimentError}</div> : null}
       <BlockNoteView
         editor={editor}
         theme={resolvedTheme}
