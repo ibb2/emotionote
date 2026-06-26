@@ -61,9 +61,7 @@ function Index() {
   };
 
   return (
-    <div className="h-full min-h-0 overflow-y-auto">
-      <p>Homepage</p>
-      <Button onClick={createNote}>New note</Button>
+    <div className="h-full overflow-y-auto">
       <div>
         {notes.length === 0 ? (
           <p>No notes yet.</p>

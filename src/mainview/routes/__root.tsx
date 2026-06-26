@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@base-ui/react/separator";
 import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, StickyNotePlus } from "lucide-react";
 import { Suspense } from "react";
+import { useNewNote } from "../hooks/useNewNote";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -22,6 +23,8 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const router = useRouter();
+
+  const { createNewNote } = useNewNote();
 
   return (
     <SidebarProvider
@@ -46,7 +49,7 @@ function RootComponent() {
         >
           <SidebarInset className="min-h-0 overflow-hidden md:ml-2">
             <header className="flex h-[var(--header-height)] shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-[var(--header-height)]">
-              <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+              <div className="flex w-full items-center gap-1 px-2 lg:gap-2 lg:px-6">
                 <Button
                   size={"icon"}
                   variant={"ghost"}
@@ -62,6 +65,13 @@ function RootComponent() {
                   onClick={() => router.history.forward()}
                 >
                   <ChevronRight />
+                </Button>
+                <Button
+                  size={"icon"}
+                  className="ml-auto self-end justify-self-end"
+                  onClick={createNewNote}
+                >
+                  <StickyNotePlus />
                 </Button>
               </div>
             </header>

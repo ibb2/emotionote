@@ -87,7 +87,7 @@ function RouteComponent() {
 
     editor.replaceBlocks(editor.document, parseBlocks(note.blocks));
     loadedNoteIdRef.current = note.id;
-  }, [editor, note]);
+  }, [editor, note, noteId]);
 
   const save = () => {
     const id = NoteId.from(noteId);
