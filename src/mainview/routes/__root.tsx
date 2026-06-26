@@ -1,6 +1,11 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/side-header";
 import { Button } from "@/components/ui/button";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
 import { Suspense } from "react";
@@ -20,26 +25,43 @@ function RootComponent() {
           "--header-height": "3rem",
         } as React.CSSProperties
       }
-      className="h-lvh"
+      className="h-svh min-h-0 overflow-hidden"
       open={false}
     >
       <AppSidebar variant="inset" />
-      <SidebarInset>
-        <div>
-          <Button
-            onClick={() => {
-              if (router.history.canGoBack()) router.history.back();
-            }}
-          >
-            Back
-          </Button>
-          <Button onClick={() => router.history.forward()}>Forward</Button>
-        </div>
-        <SiteHeader />
-        <Suspense fallback={null}>
-          <Outlet />
-        </Suspense>
-      </SidebarInset>
+      <ResizablePanelGroup
+        orientation="horizontal"
+        className="min-h-0 min-w-0 flex-1"
+      >
+        <ResizablePanel defaultSize={55} minSize={30} className="min-h-0">
+          <SidebarInset className="h-full min-h-0 overflow-hidden">
+            <div>
+              <Button
+                onClick={() => {
+                  if (router.history.canGoBack()) router.history.back();
+                }}
+              >
+                Back
+              </Button>
+              <Button onClick={() => router.history.forward()}>Forward</Button>
+            </div>
+            <SiteHeader />
+            <div className="min-h-0 flex-1 overflow-auto">
+              <Suspense fallback={null}>
+                <Outlet />
+              </Suspense>
+            </div>
+          </SidebarInset>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={45} minSize={25} className="min-h-0">
+          <SidebarInset className="h-full min-h-0 overflow-hidden">
+            <div>
+              <p>Emotional Insights</p>
+            </div>
+          </SidebarInset>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </SidebarProvider>
   );
 }
