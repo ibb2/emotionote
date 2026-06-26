@@ -1,5 +1,4 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/side-header";
 import { Button } from "@/components/ui/button";
 import {
   ResizableHandle,
@@ -9,9 +8,7 @@ import {
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Separator } from "@base-ui/react/separator";
 import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, StickyNotePlus } from "lucide-react";
 import { Suspense } from "react";

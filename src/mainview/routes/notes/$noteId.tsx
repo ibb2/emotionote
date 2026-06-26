@@ -7,11 +7,16 @@ import { Button } from "@/components/ui/button";
 import { useEvolu, useQuery } from "@evolu/react";
 import { NoteId } from "@/db/schema";
 import { useEffect, useMemo, useRef } from "react";
-import { PartialBlock } from "@blocknote/core";
 import { Row } from "@evolu/common";
 import { createQuery } from "@evolu/common/local-first";
 import { electroview } from "@/mainview/rpc";
 import { useTextSentimentAnalysis } from "@/mainview/hooks/useTextSentimentAnalysis";
+import {
+  emptyDocument,
+  forgetPendingNote,
+  getPendingNote,
+  parseBlocks,
+} from "@/mainview/lib/noteContent";
 
 export const Route = createFileRoute("/notes/$noteId")({
   component: RouteComponent,
@@ -21,17 +26,6 @@ type NoteRow = Row & {
   readonly id: string;
   readonly title: string;
   readonly blocks: string;
-};
-
-const emptyDocument: PartialBlock[] = [{ type: "paragraph", content: "" }];
-
-const parseBlocks = (blocks: string): PartialBlock[] => {
-  try {
-    const parsed = JSON.parse(blocks);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : emptyDocument;
-  } catch {
-    return emptyDocument;
-  }
 };
 
 const getInlineText = (content: unknown): string[] => {
@@ -62,6 +56,7 @@ function RouteComponent() {
   const editor = useCreateBlockNote({
     initialContent: emptyDocument,
   });
+
   const {
     analyzeText,
     error: sentimentError,
@@ -80,14 +75,29 @@ function RouteComponent() {
     [noteId],
   );
   const note = useQuery(noteQuery)[0];
-  const loadedNoteIdRef = useRef<string | null>(null);
+  const pendingNote = getPendingNote(noteId);
+  const editorNote = note ?? pendingNote;
+  const loadedNoteRef = useRef<{ id: string; blocks: string } | null>(null);
 
   useEffect(() => {
-    if (!note || loadedNoteIdRef.current === note.id) return;
+    if (
+      !editorNote ||
+      editorNote.id !== noteId ||
+      (loadedNoteRef.current?.id === editorNote.id &&
+        loadedNoteRef.current.blocks === editorNote.blocks)
+    ) {
+      return;
+    }
 
-    editor.replaceBlocks(editor.document, parseBlocks(note.blocks));
-    loadedNoteIdRef.current = note.id;
-  }, [editor, note, noteId]);
+    editor.replaceBlocks(editor.document, parseBlocks(editorNote.blocks));
+    loadedNoteRef.current = { id: editorNote.id, blocks: editorNote.blocks };
+  }, [editor, editorNote, noteId]);
+
+  useEffect(() => {
+    if (note?.id === noteId) {
+      forgetPendingNote(note.id);
+    }
+  }, [note, noteId]);
 
   const save = () => {
     const id = NoteId.from(noteId);
@@ -95,7 +105,7 @@ function RouteComponent() {
 
     const result = update("_note", {
       id: id.value,
-      title: note?.title ?? noteId,
+      title: editorNote?.title ?? noteId,
       blocks: JSON.stringify(editor.document),
     });
 
@@ -107,7 +117,7 @@ function RouteComponent() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
       <div className="shrink-0">
-        <div>{note ? note.title : `Note ${noteId} not found`}</div>
+        <div>{editorNote ? editorNote.title : `Note ${noteId} not found`}</div>
         <Button onClick={save}>Save</Button>
         <Button
           onClick={() => {
