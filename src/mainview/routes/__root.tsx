@@ -57,10 +57,10 @@ function RootComponent() {
             </div>
           </SidebarInset>
         </ResizablePanel>
-        <ResizableHandle />
+        <ResizableHandle className="bg-transparent" />
         <ResizablePanel
-          defaultSize={45}
-          minSize={25}
+          defaultSize={32}
+          minSize={0}
           className="flex min-h-0 min-w-0"
         >
           <SidebarInset className="min-h-0 overflow-hidden">
