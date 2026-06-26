@@ -21,6 +21,7 @@ function RootComponent() {
         } as React.CSSProperties
       }
       className="h-lvh"
+      open={false}
     >
       <AppSidebar variant="inset" />
       <SidebarInset>
