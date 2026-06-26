@@ -20,6 +20,10 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
   },
   optimizeDeps: {
+    include: [
+      "use-sync-external-store/shim",
+      "use-sync-external-store/shim/with-selector",
+    ],
     exclude: ["@base-ui/react", "@evolu/react", "@evolu/react-web"],
   },
   root: "src/mainview",

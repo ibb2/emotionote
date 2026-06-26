@@ -1,9 +1,8 @@
+import { AppSidebar } from "@/components/app-sidebar";
+import { SiteHeader } from "@/components/side-header";
 import { Button } from "@/components/ui/button";
-import {
-  Outlet,
-  createRootRoute,
-  useRouter,
-} from "@tanstack/react-router";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
 import { Suspense } from "react";
 
 export const Route = createRootRoute({
@@ -14,20 +13,22 @@ function RootComponent() {
   const router = useRouter();
 
   return (
-    <div>
-      <header>
-        <Button
-          onClick={() => {
-            if (router.history.canGoBack()) router.history.back();
-          }}
-        >
-          Back
-        </Button>
-        <Button onClick={() => router.history.forward()}>Forwards</Button>
-      </header>
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
-    </div>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "18rem",
+          "--header-height": "3rem",
+        } as React.CSSProperties
+      }
+      className="h-lvh"
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
