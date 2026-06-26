@@ -25,7 +25,7 @@ function RootComponent() {
           "--header-height": "3rem",
         } as React.CSSProperties
       }
-      className="h-svh min-h-0 overflow-hidden"
+      className="h-full min-h-0 overflow-hidden"
       open={false}
     >
       <AppSidebar variant="inset" />
@@ -33,8 +33,12 @@ function RootComponent() {
         orientation="horizontal"
         className="min-h-0 min-w-0 flex-1"
       >
-        <ResizablePanel defaultSize={55} minSize={30} className="min-h-0">
-          <SidebarInset className="h-full min-h-0 overflow-hidden">
+        <ResizablePanel
+          defaultSize={55}
+          minSize={30}
+          className="flex min-h-0 min-w-0"
+        >
+          <SidebarInset className="min-h-0 overflow-hidden">
             <div>
               <Button
                 onClick={() => {
@@ -46,7 +50,7 @@ function RootComponent() {
               <Button onClick={() => router.history.forward()}>Forward</Button>
             </div>
             <SiteHeader />
-            <div className="min-h-0 flex-1 overflow-auto">
+            <div className="min-h-0 flex-1 overflow-hidden">
               <Suspense fallback={null}>
                 <Outlet />
               </Suspense>
@@ -54,9 +58,13 @@ function RootComponent() {
           </SidebarInset>
         </ResizablePanel>
         <ResizableHandle />
-        <ResizablePanel defaultSize={45} minSize={25} className="min-h-0">
-          <SidebarInset className="h-full min-h-0 overflow-hidden">
-            <div>
+        <ResizablePanel
+          defaultSize={45}
+          minSize={25}
+          className="flex min-h-0 min-w-0"
+        >
+          <SidebarInset className="min-h-0 overflow-hidden">
+            <div className="min-h-0 flex-1 overflow-auto">
               <p>Emotional Insights</p>
             </div>
           </SidebarInset>

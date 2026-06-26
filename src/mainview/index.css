@@ -40,6 +40,7 @@
     --sidebar-accent-foreground: oklch(0.228 0.013 107.4);
     --sidebar-border: oklch(0.93 0.007 106.5);
     --sidebar-ring: oklch(0.737 0.021 106.9);
+    --titlebar-height: 24px;
   }
   .dark {
     --background: oklch(0.153 0.006 107.1);
@@ -81,8 +82,11 @@
   * {
     outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
   }
+  html,
   body {
     @apply bg-background text-foreground;
+    height: 100%;
+    overflow: hidden;
   }
   html {
     @apply font-sans;
@@ -90,7 +94,12 @@
 
   #titlebar {
     background-color: var(--sidebar);
-    height: 24px;
+    height: var(--titlebar-height);
+  }
+  #root {
+    height: calc(100dvh - var(--titlebar-height));
+    min-height: 0;
+    overflow: hidden;
   }
 }
 

@@ -105,35 +105,41 @@ function RouteComponent() {
   };
 
   return (
-    <div>
-      <div>{note ? note.title : `Note ${noteId} not found`}</div>
-      <Button onClick={save}>Save</Button>
-      <Button
-        onClick={() => {
-          electroview.rpc?.send.logInBackend({
-            message: `Log from note ${noteId}`,
-          });
-        }}
-      >
-        Log in Backend
-      </Button>
-      <Button
-        disabled={isAnalyzingSentiment}
-        onClick={() => void analyzeText(getDocumentText(editor.document))}
-      >
-        {isAnalyzingSentiment ? "Analyzing..." : "Analyze Emotion"}
-      </Button>
-      <div>
-        {sentiment
-          ? `Emotion: ${sentiment.label} (${Math.round(sentiment.score * 100)}%)`
-          : "Emotion: Not analyzed"}
+    <div className="flex h-full min-h-0 flex-col overflow-hidden">
+      <div className="shrink-0">
+        <div>{note ? note.title : `Note ${noteId} not found`}</div>
+        <Button onClick={save}>Save</Button>
+        <Button
+          onClick={() => {
+            electroview.rpc?.send.logInBackend({
+              message: `Log from note ${noteId}`,
+            });
+          }}
+        >
+          Log in Backend
+        </Button>
+        <Button
+          disabled={isAnalyzingSentiment}
+          onClick={() => void analyzeText(getDocumentText(editor.document))}
+        >
+          {isAnalyzingSentiment ? "Analyzing..." : "Analyze Emotion"}
+        </Button>
+        <div>
+          {sentiment
+            ? `Emotion: ${sentiment.label} (${Math.round(
+                sentiment.score * 100,
+              )}%)`
+            : "Emotion: Not analyzed"}
+        </div>
+        {sentimentError ? <div>{sentimentError}</div> : null}
       </div>
-      {sentimentError ? <div>{sentimentError}</div> : null}
-      <BlockNoteView
-        editor={editor}
-        theme={resolvedTheme}
-        data-theming-css-variables
-      />
+      <div className="min-h-0 flex-1 overflow-auto">
+        <BlockNoteView
+          editor={editor}
+          theme={resolvedTheme}
+          data-theming-css-variables
+        />
+      </div>
     </div>
   );
 }

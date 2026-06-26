@@ -61,7 +61,7 @@ function Index() {
   };
 
   return (
-    <div className="overflow-y-scroll">
+    <div className="h-full min-h-0 overflow-y-auto">
       <p>Homepage</p>
       <Button onClick={createNote}>New note</Button>
       <div>
