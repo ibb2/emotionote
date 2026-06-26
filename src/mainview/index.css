@@ -87,6 +87,11 @@
   html {
     @apply font-sans;
   }
+
+  #titlebar {
+    background-color: var(--sidebar);
+    height: 24px;
+  }
 }
 
 /* Base theme */
