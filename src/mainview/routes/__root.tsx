@@ -25,6 +25,16 @@ function RootComponent() {
     >
       <AppSidebar variant="inset" />
       <SidebarInset>
+        <div>
+          <Button
+            onClick={() => {
+              if (router.history.canGoBack()) router.history.back();
+            }}
+          >
+            Back
+          </Button>
+          <Button onClick={() => router.history.forward()}>Forward</Button>
+        </div>
         <SiteHeader />
         <Suspense fallback={null}>
           <Outlet />
