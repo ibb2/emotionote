@@ -38,7 +38,7 @@ function RootComponent() {
           minSize={30}
           className="flex min-h-0 min-w-0"
         >
-          <SidebarInset className="min-h-0 overflow-hidden">
+          <SidebarInset className="min-h-0 overflow-hidden md:ml-2">
             <div>
               <Button
                 onClick={() => {
