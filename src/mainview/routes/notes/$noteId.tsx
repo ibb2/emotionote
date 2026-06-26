@@ -17,6 +17,7 @@ import {
   getPendingNote,
   parseBlocks,
 } from "@/mainview/lib/noteContent";
+import debounce from "debounce";
 
 export const Route = createFileRoute("/notes/$noteId")({
   component: RouteComponent,
@@ -99,8 +100,11 @@ function RouteComponent() {
     }
   }, [note, noteId]);
 
-  const save = () => {
+  const saveOnInterval = debounce(() => {
     const id = NoteId.from(noteId);
+    electroview.rpc?.send.logInBackend({
+      message: `Noteid ${id}`,
+    });
     if (!id.ok) return;
 
     const result = update("_note", {
@@ -110,8 +114,14 @@ function RouteComponent() {
     });
 
     if (result.ok) {
-      console.log("Saved");
+      electroview.rpc?.send.logInBackend({
+        message: `Saved note ${noteId}`,
+      });
     }
+  }, 500);
+
+  const save = () => {
+    saveOnInterval();
   };
 
   return (
@@ -146,6 +156,9 @@ function RouteComponent() {
       <div className="min-h-0 flex-1 overflow-auto">
         <BlockNoteView
           editor={editor}
+          onChange={() => {
+            save();
+          }}
           theme={resolvedTheme}
           data-theming-css-variables
         />
