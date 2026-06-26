@@ -35,7 +35,7 @@ const rpc = BrowserView.defineRPC<MyWebviewRPCType>({
 const url = await getMainViewUrl();
 
 const mainWindow = new BrowserWindow({
-  title: "React + Tailwind + Vite",
+  title: "Emotionote",
   url,
   frame: {
     width: 900,
@@ -43,10 +43,12 @@ const mainWindow = new BrowserWindow({
     x: 200,
     y: 200,
   },
-  titleBarStyle: "hiddenInset",
+  ...(process.platform !== "darwin"
+    ? { titleBarStyle: "default" }
+    : { titleBarStyle: "hiddenInset" }),
   rpc,
 });
 
 void mainWindow;
 
-console.log("React Tailwind Vite app started!");
+// console.log("React Tailwind Vite app started!");
