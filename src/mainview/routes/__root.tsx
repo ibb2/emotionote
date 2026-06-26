@@ -5,10 +5,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, StickyNotePlus } from "lucide-react";
 import { Suspense } from "react";
@@ -86,7 +83,7 @@ function RootComponent() {
           className="flex min-h-0 min-w-0"
         >
           <SidebarInset className="min-h-0 overflow-hidden">
-            <div className="min-h-0 flex-1 overflow-auto">
+            <div className="min-h-0 flex-1 overflow-auto p-4">
               <p>Emotional Insights</p>
             </div>
           </SidebarInset>

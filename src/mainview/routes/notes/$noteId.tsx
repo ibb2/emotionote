@@ -18,6 +18,7 @@ import {
   parseBlocks,
 } from "@/mainview/lib/noteContent";
 import debounce from "debounce";
+import { getBlock } from "@blocknote/core";
 
 export const Route = createFileRoute("/notes/$noteId")({
   component: RouteComponent,
@@ -36,6 +37,20 @@ const getInlineText = (content: unknown): string[] => {
 
   const maybeText = (content as { text?: unknown }).text;
   return typeof maybeText === "string" ? [maybeText] : [];
+};
+
+const getBlockText = (
+  blocks: readonly {
+    content?: unknown;
+  }[],
+): string[] => {
+  const container = [];
+
+  for (const block of blocks) {
+    container.push(...getInlineText(block.content));
+  }
+
+  return container;
 };
 
 const getDocumentText = (
@@ -127,6 +142,15 @@ function RouteComponent() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
       <div className="shrink-0">
+        <Button
+          disabled={isAnalyzingSentiment}
+          onClick={() => {
+            const text = getBlockText(editor.document);
+            console.log(text);
+          }}
+        >
+          Print
+        </Button>
         {/*<Button
           disabled={isAnalyzingSentiment}
           onClick={() => void analyzeText(getDocumentText(editor.document))}
@@ -140,7 +164,7 @@ function RouteComponent() {
               )}%)`
             : "Emotion: Not analyzed"}
         </div>*/}
-        {sentimentError ? <div>{sentimentError}</div> : null}
+        {/*{sentimentError ? <div>{sentimentError}</div> : null}*/}
       </div>
       <div className="min-h-0 flex-1 overflow-auto">
         <BlockNoteView
