@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+	darkMode: "class",
 	content: [
 		"./src/**/*.{html,js,ts,jsx,tsx}",
 		"./node_modules/@blocknote/shadcn/src/**/*.{js,ts,jsx,tsx}",
