@@ -127,18 +127,7 @@ function RouteComponent() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
       <div className="shrink-0">
-        <div>{editorNote ? editorNote.title : `Note ${noteId} not found`}</div>
-        <Button onClick={save}>Save</Button>
-        <Button
-          onClick={() => {
-            electroview.rpc?.send.logInBackend({
-              message: `Log from note ${noteId}`,
-            });
-          }}
-        >
-          Log in Backend
-        </Button>
-        <Button
+        {/*<Button
           disabled={isAnalyzingSentiment}
           onClick={() => void analyzeText(getDocumentText(editor.document))}
         >
@@ -150,7 +139,7 @@ function RouteComponent() {
                 sentiment.score * 100,
               )}%)`
             : "Emotion: Not analyzed"}
-        </div>
+        </div>*/}
         {sentimentError ? <div>{sentimentError}</div> : null}
       </div>
       <div className="min-h-0 flex-1 overflow-auto">
