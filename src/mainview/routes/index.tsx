@@ -45,7 +45,7 @@ function Index() {
   };
 
   return (
-    <div className="h-full overflow-y-auto px-6">
+    <div className="h-full overflow-y-auto px-4">
       <div>
         {notes.map((note) => (
           <Item
