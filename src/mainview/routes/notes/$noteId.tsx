@@ -142,7 +142,7 @@ function RouteComponent() {
   return (
     <div className="flex h-full min-h-0 flex-col overflow-hidden">
       <div className="shrink-0">
-        <Button
+        {/*<Button
           disabled={isAnalyzingSentiment}
           onClick={() => {
             const text = getBlockText(editor.document);
@@ -150,7 +150,7 @@ function RouteComponent() {
           }}
         >
           Print
-        </Button>
+        </Button>*/}
         {/*<Button
           disabled={isAnalyzingSentiment}
           onClick={() => void analyzeText(getDocumentText(editor.document))}
