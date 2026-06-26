@@ -6,8 +6,14 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { Separator } from "@base-ui/react/separator";
 import { Outlet, createRootRoute, useRouter } from "@tanstack/react-router";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Suspense } from "react";
 
 export const Route = createRootRoute({
@@ -39,17 +45,26 @@ function RootComponent() {
           className="flex min-h-0 min-w-0"
         >
           <SidebarInset className="min-h-0 overflow-hidden md:ml-2">
-            <div>
-              <Button
-                onClick={() => {
-                  if (router.history.canGoBack()) router.history.back();
-                }}
-              >
-                Back
-              </Button>
-              <Button onClick={() => router.history.forward()}>Forward</Button>
-            </div>
-            <SiteHeader />
+            <header className="flex h-[var(--header-height)] shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-[var(--header-height)]">
+              <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  onClick={() => {
+                    if (router.history.canGoBack()) router.history.back();
+                  }}
+                >
+                  <ChevronLeft />
+                </Button>
+                <Button
+                  size={"icon"}
+                  variant={"ghost"}
+                  onClick={() => router.history.forward()}
+                >
+                  <ChevronRight />
+                </Button>
+              </div>
+            </header>
             <div className="min-h-0 flex-1 overflow-hidden">
               <Suspense fallback={null}>
                 <Outlet />
